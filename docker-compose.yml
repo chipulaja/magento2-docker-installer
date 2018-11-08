@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  web:
+    #build: ./
+    image: chipulaja/php-apache-untuk-magento2:v0.0.1
+    ports:
+      - 801:80
+    depends_on:
+      - dbmysql
+    volumes:
+      - ./magento2-installer.sh:/usr/local/bin/magento2-installer.sh
+      - ./magento2:/var/www/magento2
+      - ./000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./auth.json:/var/www/.composer/auth.json
+    environment:
+      DB_HOST: dbmysql
+      DB_NAME: magento
+      DB_USER: root
+      DB_PASSWORD: myScreetIsScreet
+      ADMIN_USER: syaiful
+      ADMIN_PASSWORD: adminScreet1234
+      ADMIN_EMAIL: chipul.aja@gmail.com
+      ADMIN_FIRSTNAME: syaiful
+      ADMIN_LASTNAME: arifin
+      BASE_URL: http://localhost:801
+
+  dbmysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: myScreetIsScreet
+      MYSQL_DATABASE: magento
